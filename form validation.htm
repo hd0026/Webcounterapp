@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Validation</title>
+    <!-- Include Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* Custom CSS for error messages */
+        .error-message {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h2>Form Validation</h2>
+        <form id="myForm">
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" class="form-control" id="name" name="name">
+                <span class="error-message" id="name-error"></span>
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" class="form-control" id="email" name="email">
+                <span class="error-message" id="email-error"></span>
+            </div>
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" class="form-control" id="password" name="password">
+                <span class="error-message" id="password-error"></span>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+
+    <!-- Include Bootstrap JS and jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        // JavaScript Validation
+        document.getElementById("myForm").addEventListener("submit", function (event) {
+            let isValid = true;
+
+            // Validation functions
+            function validateName() {
+                const nameInput = document.getElementById("name");
+                const nameError = document.getElementById("name-error");
+                const nameValue = nameInput.value.trim();
+                if (nameValue === "") {
+                    nameError.textContent = "Name is required.";
+                    isValid = false;
+                } else {
+                    nameError.textContent = "";
+                }
+            }
+
+            function validateEmail() {
+                const emailInput = document.getElementById("email");
+                const emailError = document.getElementById("email-error");
+                const emailValue = emailInput.value.trim();
+                const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+                if (!emailPattern.test(emailValue)) {
+                    emailError.textContent = "Invalid email format.";
+                    isValid = false;
+                } else {
+                    emailError.textContent = "";
+                }
+            }
+
+            function validatePassword() {
+                const passwordInput = document.getElementById("password");
+                const passwordError = document.getElementById("password-error");
+                const passwordValue = passwordInput.value;
+                if (passwordValue.length < 8) {
+                    passwordError.textContent = "Password must be at least 8 characters.";
+                    isValid = false;
+                } else {
+                    passwordError.textContent = "";
+                }
+            }
+
+            // Call validation functions
+            validateName();
+            validateEmail();
+            validatePassword();
+
+            if (!isValid) {
+                event.preventDefault(); // Prevent form submission if there are validation errors
+            }
+        });
+    </script>
+</body>
+</html>

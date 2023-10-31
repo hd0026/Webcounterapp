@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Counter Website</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        #counter {
+            font-size: 30px;
+            font-weight: bold;
+        }
+        button {
+            font-size: 18px;
+            margin: 10px;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Counter Website</h1>
+    <div id="counter">0</div>
+    <button id="decreaseButton">Decrease</button>
+    <button id="resetButton">Reset</button>
+    <button id="increaseButton">Increase</button>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            let count = 0;
+            const counterElement = document.getElementById("counter");
+
+            document.getElementById("decreaseButton").onclick = function(){
+                count -= 1;
+                counterElement.innerHTML = count;
+            }
+
+            document.getElementById("resetButton").onclick = function(){
+                count = 0;
+                counterElement.innerHTML = count;
+            }
+
+            document.getElementById("increaseButton").onclick = function(){
+                count += 1;
+                counterElement.innerHTML = count;
+            }
+        });
+    </script>
+</body>
+</html>

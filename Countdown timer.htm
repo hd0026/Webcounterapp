@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="main.css">
+    <link href='https://fonts.googleapis.com/css?family=Bubblegum Sans' rel='stylesheet'>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Countdown Timer</title>
+    <style>
+        body {
+            font-family: 'Bubblegum Sans';font-size: 22px;
+            text-align: center;
+        }
+        #timer {
+            font-size: 2rem;
+            margin: 20px;
+        }
+        #input-container {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Countdown Timer</h1>
+    <div id="timer">00:00:00</div>
+    <div id="input-container">
+        <label for="timeInput">Enter time in seconds:</label>
+        <input type="number" id="timeInput" min="1" placeholder="Enter seconds">
+        <button onclick="startCountdown()">Start Countdown</button>
+    </div>
+<div>
+    <script src="https://cdn.jsdelivr.net/npm/js-confetti@latest/dist/js-confetti.browser.js"></script>
+    <div>
+    <script>
+
+
+    const jsConfetti = new JSConfetti()
+
+
+
+        let countdown;
+        function startCountdown() {
+            const timeInput = document.getElementById('timeInput');
+            const timerDisplay = document.getElementById('timer');
+            const seconds = parseInt(timeInput.value);
+            if (!isNaN(seconds)) {
+                clearInterval(countdown);
+                const now = Date.now();
+                const then = now + seconds * 1000;
+
+                displayTimeLeft(seconds);
+
+                countdown = setInterval(() => {
+                    const secondsLeft = Math.round((then - Date.now()) / 1000);
+                    if (secondsLeft <= 0) {
+                        clearInterval(countdown);
+                        timerDisplay.textContent = 'Time\'s up!';
+                        jsConfetti.addConfetti()
+
+                        return;
+                    }
+                    displayTimeLeft(secondsLeft);
+                }, 1000);
+            }
+        }
+
+        function displayTimeLeft(seconds) {
+            const hours = Math.floor(seconds / 3600);
+            const minutes = Math.floor((seconds % 3600) / 60);
+            const remainingSeconds = seconds % 60;
+            const display = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(remainingSeconds).padStart(2, '0')}`;
+            document.getElementById('timer').textContent = display;
+        }
+    </script>
+</body>
+</html>
