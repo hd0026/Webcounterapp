@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>To-Do List</title>
+    <!-- Bootstrap CSS link -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+
+<div class="container mt-4">
+    <h1>To-Do List</h1>
+    <form id="taskForm">
+        <div class="form-group">
+            <input type="text" class="form-control" id="taskInput" placeholder="Enter task">
+        </div>
+        <button type="submit" class="btn btn-primary">Add Task</button>
+    </form>
+
+    <ul class="list-group mt-3" id="taskList">
+        <!-- Tasks will be displayed here -->
+    </ul>
+</div>
+
+<!-- jQuery JS link -->
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script>
+    $(document).ready(function(){
+        // Submit form via AJAX
+        $('#taskForm').submit(function(e){
+            e.preventDefault();
+            var task = $('#taskInput').val();
+            $.ajax({
+                type: 'POST',
+                url: 'task_handler.php',
+                data: { task: task },
+                success: function(response){
+                    $('#taskInput').val(''); // Clear input field after adding task
+                    $('#taskList').append('<li class="list-group-item">' + task + '<button class="btn btn-danger btn-sm float-right delete">Delete</button></li>');
+                }
+            });
+        });
+
+        // Delete task via AJAX
+        $(document).on('click', '.delete', function(){
+            var taskItem = $(this).parent();
+            var task = taskItem.text().trim();
+            $.ajax({
+                type: 'POST',
+                url: 'delete_task.php',
+                data: { task: task },
+                success: function(response){
+                    taskItem.remove();
+                }
+            });
+        });
+    });
+</script>
+
+</body>
+</html>

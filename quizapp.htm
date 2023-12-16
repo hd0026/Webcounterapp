@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Quiz App</title>
+  <!-- Include Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+  <div class="container mt-5">
+    <div id="questionContainer">
+      <h2 id="question">Question Text</h2>
+      <ul id="options" class="list-group">
+        <li class="list-group-item">Option 1</li>
+        <li class="list-group-item">Option 2</li>
+        <li class="list-group-item">Option 3</li>
+        <li class="list-group-item">Option 4</li>
+      </ul>
+      <button id="submitBtn" class="btn btn-primary mt-3">Submit</button>
+    </div>
+    <div id="result" class="mt-3"></div>
+  </div>
+
+  <!-- Include Bootstrap JS and your custom JavaScript -->
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script src="script.js"></script>
+  <script>
+  const questions = [
+  {
+    question: "What is the capital of France?",
+    options: ["London", "Paris", "Berlin", "Madrid"],
+    answer: "Paris"
+  },
+  {
+    question: "Which planet is known as the Red Planet?",
+    options: ["Mars", "Jupiter", "Venus", "Mercury"],
+    answer: "Mars"
+  },
+  // Add more questions and their details here
+];
+
+let currentQuestion = 0;
+let score = 0;
+
+const questionText = document.getElementById('question');
+const optionsList = document.getElementById('options');
+const submitBtn = document.getElementById('submitBtn');
+const resultDiv = document.getElementById('result');
+
+function displayQuestion() {
+  questionText.textContent = questions[currentQuestion].question;
+  optionsList.innerHTML = '';
+  questions[currentQuestion].options.forEach((option, index) => {
+    const li = document.createElement('li');
+    li.classList.add('list-group-item');
+    li.textContent = option;
+    li.addEventListener('click', () => checkAnswer(option));
+    optionsList.appendChild(li);
+  });
+}
+
+function checkAnswer(selectedOption) {
+  if (selectedOption === questions[currentQuestion].answer) {
+    score++;
+    resultDiv.textContent = "Correct!";
+  } else {
+    resultDiv.textContent = "Incorrect!";
+  }
+  currentQuestion++;
+  if (currentQuestion < questions.length) {
+    displayQuestion();
+  } else {
+    showFinalResult();
+  }
+}
+
+function showFinalResult() {
+  questionText.textContent = 'Quiz completed!';
+  optionsList.innerHTML = '';
+  resultDiv.textContent = `Your score: ${score} out of ${questions.length}`;
+  submitBtn.style.display = 'none';
+}
+
+submitBtn.addEventListener('click', () => {
+  resultDiv.textContent = '';
+  displayQuestion();
+});
+
+// Display the first question initially
+displayQuestion();
+
+  </script>
+</body>
+</html>
