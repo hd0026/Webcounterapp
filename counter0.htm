@@ -1,0 +1,71 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>Counter App</title>
+<!-- Include Bootstrap CSS -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="counter.css">
+</head>
+<body>
+<div class="container mt-5">
+  <h1 class="text-center" id="countDisplay">0</h1>
+  <div class="text-center">
+    <button class="btn btn-primary mr-2" id="incrementBtn">Increment</button>
+    <button class="btn btn-secondary mr-2" id="decrementBtn">Decrement</button>
+    <button class="btn btn-danger" id="resetBtn">Reset</button>
+  </div>
+</div>
+
+<!-- Include Bootstrap JS and your custom JavaScript -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="script.js"></script>
+<script>
+// Get elements by ID
+const countDisplay = document.getElementById('countDisplay');
+const incrementBtn = document.getElementById('incrementBtn');
+const decrementBtn = document.getElementById('decrementBtn');
+const resetBtn = document.getElementById('resetBtn');
+
+// Initial count value
+let count = 0;
+
+// Function to update count display
+function updateDisplay() {
+  countDisplay.textContent = count;
+}
+
+// Increment function
+function increment() {
+  count++;
+  updateDisplay();
+}
+
+// Decrement function
+function decrement() {
+  if (count > 0) {
+    count--;
+    updateDisplay();
+  }
+  // Optional: Prevent count from going below zero
+  // Uncomment the line below to enable this feature
+  // else { count = 0; }
+}
+
+// Reset function
+function reset() {
+  count = 0;
+  updateDisplay();
+}
+
+// Event listeners
+incrementBtn.addEventListener('click', increment);
+decrementBtn.addEventListener('click', decrement);
+resetBtn.addEventListener('click', reset);
+
+// Initial display update
+updateDisplay();
+</script>
+</body>
+
+</html>

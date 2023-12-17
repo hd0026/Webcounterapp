@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Task Management App</title>
+  <!-- Include jQuery and jQuery UI -->
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
+</head>
+<body>
+  <div class="container mt-5">
+    <h1>ToDo List</h1>
+    <form id="taskForm">
+      <input type="text" id="taskTitle" placeholder="Task Title">
+      <input type="text" id="taskDescription" placeholder="Task Description">
+      <input type="text" id="dueDate" placeholder="Due Date">
+      <!-- Include priority level input if needed -->
+      <button type="submit">Add Task</button>
+    </form>
+    <ul id="taskList"></ul>
+  </div>
+
+  <!-- Include jQuery and jQuery UI -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
+  <script src="script.js"></script>
+  <script>
+  // Task Management
+$(document).ready(function() {
+  let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+
+  function displayTasks() {
+    $('#taskList').empty();
+    tasks.forEach(function(task) {
+      $('#taskList').append(`<li>${task.title} - ${task.description} - ${task.dueDate}</li>`);
+    });
+  }
+
+  $('#taskForm').on('submit', function(event) {
+    event.preventDefault();
+    const title = $('#taskTitle').val();
+    const description = $('#taskDescription').val();
+    const dueDate = $('#dueDate').val();
+    // Include priority level handling if needed
+
+    tasks.push({ title, description, dueDate });
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+    displayTasks();
+  });
+
+  displayTasks();
+});
+function setNotification(task) {
+const now = new Date();
+const due = new Date(task.dueDate);
+const diff = Math.abs(due - now);
+const minutes = Math.floor((diff / 1000) / 60);
+
+if (minutes <= 60) { // Remind within 1 hour
+  const notification = new Notification('Task Reminder', {
+    body: `${task.title} is due soon!`
+  });
+}
+}
+
+// Check for notification reminders on page load
+tasks.forEach(task => setNotification(task));
+
+// Task Autocomplete
+const availableTags = tasks.map(task => task.title);
+$('#taskTitle').autocomplete({
+source: availableTags
+});
+
+// Completed Tasks
+// Implement functionality to mark tasks as completed and differentiate visually
+});
+// Notification Reminders
+// Implement notification logic here
+
+// Task Autocomplete
+// Implement autocomplete logic here
+
+// Completed Tasks
+// Implement functionality to mark tasks as completed and differentiate visually
+
+  </script>
+</body>
+</html>

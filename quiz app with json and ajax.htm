@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Quiz App</title>
+  <!-- Include jQuery -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+  <div class="container mt-5">
+    <h1>Quiz</h1>
+    <div id="question"></div>
+    <ul id="options"></ul>
+    <button id="nextBtn">Next</button>
+  </div>
+
+  <script src="script.js"></script>\
+  <script src="quiz.JSON"></script>\
+  <script>
+  $(document).ready(function() {
+  let currentQuestion = 0;
+  let quizData;
+
+  // Make an AJAX request to load quiz data from JSON file
+  $.ajax({
+    url: 'quiz.json',
+    dataType: 'json',
+    success: function(data) {
+      quizData = data;
+      displayQuestion();
+    },
+    error: function() {
+      console.error('Error loading quiz data');
+    }
+  });
+
+  // Display question and answer options
+  function displayQuestion() {
+    $('#question').text(quizData[currentQuestion].questionText);
+    $('#options').empty();
+    quizData[currentQuestion].options.forEach(function(option) {
+      $('#options').append(`<li>${option}</li>`);
+    });
+  }
+
+  // Event listener for next button
+  $('#nextBtn').on('click', function() {
+    currentQuestion++;
+    if (currentQuestion < quizData.length) {
+      displayQuestion();
+    } else {
+      $('#question').text('Quiz completed!');
+      $('#options').empty();
+      $('#nextBtn').prop('disabled', true);
+    }
+  });
+});
+
+  </script>
+</body>
+</html>
